@@ -26,8 +26,9 @@ get.pkg("RCurl")
 get.pkg("XML")
 get.pkg("ncdf4")
 get.pkg("devtools")
-get.pkg("MODISTools")
+library("MODISTools")
 ```
+Note: The MODISTools library is no longer on CRAN, but can be downloaded manually from the ORNL DAAC here: https://modis.ornl.gov/data/modis_webservice.html
 
 Pulling data directly off the web
 ---------------------------------
@@ -59,7 +60,7 @@ For more information, please visit http://www.google.org/flutrends
 
 **Question 1:**
 
-Using the US Forest Service's Forest Inventory and Analysis (FIA) data set, plot the rank vs log(abundance) curve for tree seedling counts from Rhode Island. Data is available at http://apps.fs.fed.us/fiadb-downloads/CSV/RI_SEEDLING.csv and the relevant columns are TREECOUNT (raw seedling counts) and SPCD (species codes). 
+Using the US Forest Service's Forest Inventory and Analysis (FIA) data set, plot the rank vs log(abundance) curve for tree seedling counts from Rhode Island. Data is available at https://apps.fs.usda.gov/fia/datamart/CSV/RI_SEEDLING.csv and the relevant columns are TREECOUNT (raw seedling counts) and SPCD (species codes). 
 Hints: tapply, sum, na.rm=TRUE, sort, decreasing=TRUE, log='y'
 
 
@@ -69,18 +70,18 @@ Web Scraping
 Often the data that we want to use from the web has been formatted in HTML for human-readability rather than in tab- or comma-delimited files for inport and export. The process of extracting data from webpages has been dubbed **scraping**. For these sorts of more complex problems we can use the RCurl library to grab HTML or XML structured content directly off the web, and then use the XML library to parse the markup into more standard R data objects. In the example below we grab data on the status of all the files that make up the FIA in order to look for files that have been updated after a certain date.
 
 ```{r}
-# nu <- function(x){as.numeric(as.character(x))}  ## simple function to convert data to numeric
-# 
-# fia_html <- getURL("http://apps.fs.fed.us/fiadb-downloads/datamart.html")  ## grab raw html
-# fia_table = readHTMLTable(fia_html)[[6]]    ## We're interested in the 6th table on this webpage
-# update = as.Date(fia_table[,"Last Modified Date"])
-# hist(update,"months")                       ## Plot a histogram of update times
-# fia_table[which(update > "2016/01/01"),]
+nu <- function(x){as.numeric(as.character(x))}  ## simple function to convert data to numeric
+
+fia_html <- getURL("https://apps.fs.usda.gov/fia/datamart/CSV/datamart_csv.html")  ## grab raw html
+fia_table = readHTMLTable(fia_html)[[3]]    ## We're interested in the 3rd table on this webpage
+update = as.Date(fia_table[,"Last Modified Date"])
+hist(update,"months")                       ## Plot a histogram of update times
+recent <- fia_table[which(update > "2016/01/01"),]
 ```
 
 
 **Question 2:**
-Create a sorted table of how many FLUXNET eddy-covariance towers are in each country according to the website at http://fluxnet.ornl.gov/site_status. Hint: use substring to extract the country code from the overall FLUXNET ID code.
+Create a sorted table of how many FLUXNET eddy-covariance towers are in each country according to the website at http://fluxnet.fluxdata.org/sites/site-list-and-pages/. Hint: use substring to extract the country code from the overall FLUXNET ID code.
 
 grep, system, RegExp
 --------------------
@@ -201,12 +202,6 @@ SOAP
 ----
 
 In addition to data that is directly downloadable, and that which is scraped, there are a number of places on the web where data is available though interactive webservices. One standard protocol for such data sharing is the Simple Object Acces Protocol (SOAP). In this example we will be using SOAP to access the NASA MODIS server, and rather than using the generic SOAP library we'll use a pre-existing R package called MODISTools, as a demonstration of one of the many dataset-specific R packages.  
-
-While it is possible to grab MODISTools off of CRAN directly, it is also simple to pull R packages out of code development repositories, such as Github using the devtools library. This is useful because not all R Packages are on CRAN, and even when they are there are sometimes features in the development branch of a tool that are not in the released version. In this example the second argument is the GitHub project or user that's hosting the code.
-```
-install_github("MODISTools","seantuck12") 
-```
-  ## arguements are the library name and the username 
 
 Next, we'll query the MODIS server to see what data products are available and what variables (bands) are available within one of those data products. More details about each data product (its definition, calculation, units, and missing data string) is available at https://lpdaac.usgs.gov/products/modis_products_table
 
