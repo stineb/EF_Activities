@@ -66,26 +66,26 @@ There is a good chart at http://www.johndcook.com/distribution_chart.html that d
 
 R actually provides four related functions for each probability distribution.  These functions are called by adding a letter at the beginning of the function name.  The variants of each probability distribution are:
 
-* “d” = density:  probability density function (PDF)
-* “p” = cumulative distribution function (CDF)
-* “q” = quantile: calculates the value associated with a specified tail probability, inverse of “p”
-* “r” = random: simulates random numbers
+* ???d??? = density:  probability density function (PDF)
+* ???p??? = cumulative distribution function (CDF)
+* ???q??? = quantile: calculates the value associated with a specified tail probability, inverse of ???p???
+* ???r??? = random: simulates random numbers
 
-The first argument to these functions is the same regardless of the distribution and is x for “d”, q for “p”, p for “q”and n for “r”
+The first argument to these functions is the same regardless of the distribution and is x for ???d???, q for ???p???, p for ???q???and n for ???r???
 
 All of this will make more sense once we consider a concrete example.  Let's take a look at the normal probability density function first, since it's the one you're most familiar with.  If you use ?dnorm you'll see that for many of the function arguments there are default values, specifically mean=0 and sd=1.  Therefore if these values are not specified explicitly in the function call R assumes you want a standard Normal distribution.
 
 ```{r}
 x = seq(-5,5,by=0.1)
-plot(x,dnorm(x),type='l')  		## that’s a lowercase “L” for “line”
-abline(v=0)					## add a line to indicate the mean (“v” is for “vertical”)
-lines(x,dnorm(x,2),col=2)			## try changing the mean (“col” sets the color)
+plot(x,dnorm(x),type='l')  		## that???s a lowercase ???L??? for ???line???
+abline(v=0)					## add a line to indicate the mean (???v??? is for ???vertical???)
+lines(x,dnorm(x,2),col=2)			## try changing the mean (???col??? sets the color)
 abline(v=2,col=2)
 lines(x,dnorm(x,-1,2),col=3)			## try changing the mean and standard dev
 abline(v=-1,col=3)
 ```
 
-This plot of the normal distribution and the effects of varying the parameters in the normal are both probably familiar to you already – changing the mean changes where the distribution is centered while changing the standard deviation changes the spread of the distribution.  Next try looking at the CDF of the normal:
+This plot of the normal distribution and the effects of varying the parameters in the normal are both probably familiar to you already ??? changing the mean changes where the distribution is centered while changing the standard deviation changes the spread of the distribution.  Next try looking at the CDF of the normal:
 
 ```{r}
 plot(x,pnorm(x,0,1),type='l')
@@ -102,7 +102,7 @@ Next let's look at the function qnorm.  Since the input to this function is a qu
 p = seq(0,1,by=0.01)
 plot(p,qnorm(p,0,1),type='l',ylim=range(x))    # ylim sets the y-axis range
 # range returns the min/max as a 2-element vector
-abline(h=0)						# “h” for “horizontal”
+abline(h=0)						# ???h??? for ???horizontal???
 lines(p,qnorm(p,2,1),col=2)
 abline(h=2,col=2)
 lines(p,qnorm(p,-1,2),col=3)
@@ -133,7 +133,7 @@ for(i in 1:4){			# loop over these sample sizes
 
 One other technical note: like any function in R that generates random output, this example will give different results every time you run it. 
 
-This example demonstrates that as the number of random draws from a probability distribution increases, the histogram of those draws provides a better and better approximation of the density itself.  We will make use of this fact extensively this semester because – as odd as this may sound now – there are many distributions that are easier to randomly sample from than solve for analytically. 
+This example demonstrates that as the number of random draws from a probability distribution increases, the histogram of those draws provides a better and better approximation of the density itself.  We will make use of this fact extensively this semester because ??? as odd as this may sound now ??? there are many distributions that are easier to randomly sample from than solve for analytically. 
 
 ### Problems
 
