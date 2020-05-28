@@ -5,7 +5,7 @@ output: html_document
 ---
 
 ```{r,echo=FALSE}
-library(rjags)
+library(rjags) ## in order to load this, first install jags (port install jags)
 library(coda)
 ```
 
@@ -14,7 +14,13 @@ library(coda)
 
 The aim of this activity is to provide a tutorial on JAGS (Just Another Gibbs Sampler), a statistical software package designed specifically to do Bayesian analyses of simple to intermediate complexity using Markov Chain Monte Carlo (MCMC) numerical simulation methods. JAGS is one of a set of generalized software tools for doing Bayesian computation, with BUGS, NIMBLE, and STAN being other popular options. These tools use very similar and simple scripting languages that focus on specifying data and process models. The great thing about these tools is that they keeps a lot of the mathematical and computational details “under the hood” so that you can focus on the structure of your model at a high level rather than being bogged down in the details. Also, since JAGS is designed just to do Bayesian MCMC computation it is very efficient at this, which is nice since Bayesian MCMC computations can be time consuming. In this tutorial we will work through the basics of using BUGS: writing and compiling a model, loading data, executing the model, and evaluating the numerical output of the model.
 
-While tools like JAGS can be run by themselves, they are not really designed for managing or manipulating data, and thus it is common to use R packages to interface with these tools. In the example below we will use the rjags package to call JAGS. To be able to install rjags you will need to first install JAGS itself: http://mcmc-jags.sourceforge.net/
+While tools like JAGS can be run by themselves, they are not really designed for managing or manipulating data, and thus it is common to use R packages to interface with these tools. In the example below we will use the rjags package to call JAGS. To be able to install rjags you will need to first install JAGS itself: http://mcmc-jags.sourceforge.net/. This is best done with Mac Ports. I had to do:
+```{sh}
+sudo port install jags
+ln -s /opt/local/lib/libjags* /usr/local/lib/
+ln -s /opt/local/lib/JAGS /usr/local/lib/
+ln -s /opt/local/include/JAGS /usr/local/include/
+```
 
 The reason for choosing JAGS in this course is that it has much better cross-platform support than the earlier BUGS language, which really only operates well in Windows. The STAN language is newer, also works across platforms, and is becoming increasingly popular. 
 

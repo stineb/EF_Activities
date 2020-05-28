@@ -152,13 +152,18 @@ netCDF, wget
 In this section I want to introduce another command-line utility, wget, which can be used to pull files and content off the web, and to demonstrate how netCDF can be used in R. For this example we will be using data from the WLEF eddy-covariance tower located in northern Wisconsin. Unlike most flux towers, WLEF is a "tall-tower" -- it's actually a 440m TV antenna -- which means that it integrates over a much larger footprint than most towers. Indeed, the tower is instrumented at multiple heights. First, let's use wget to grab the data off the web. A few notes: 1) wget could be used from command line rather than as a system command;  2) if you don't have wget installed, use your web browser
 
 ```{r}
-system("wget http://co2.aos.wisc.edu/data/cheas/wlef/netcdf/US-PFa-WLEF-TallTowerClean-2012-L0-vFeb2013.nc")
+filn <- "US-PFa-WLEF-TallTowerClean-2012-L0-vFeb2013.nc"
+url <- "http://co2.aos.wisc.edu/data/cheas/wlef/netcdf/"
+cmd <- paste0("wget ", url, filn)
+if (!file.exists(filn)){
+  system(cmd)
+}
 ```
 
 Next, lets open the file and look at what it contains
 ```{r}
 ## open the netCDF file
-wlef = nc_open("US-PFa-WLEF-TallTowerClean-2012-L0-vFeb2013.nc")
+wlef = nc_open(filn)  ## 'filn' is defined in the chunk above.
 print(wlef)    ## metadata
 ```
 
